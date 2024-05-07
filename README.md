@@ -7,7 +7,7 @@ que d’autres organismes nationaux producteurs de données dans le cadre de l�
 de support dans l’élaboration du "Rapport d’Examen National Volontaire des Objectifs de 
 Développement Durable". Les données ont été recueillies pour la mesure des progrès accomplis 
 par la RDC vers la réalisation de ces différents objectifs(ODD) et on en compte 17. Pour la suite 
-de notre travail, nous n’utiliserons que les données concernant les dépenses par habitants31
+de notre travail, nous n’utiliserons que les données concernant les dépenses par habitants
 du pays. Elle comprend 8993 observations et vingt variables. Les variables comprennent les 
 informations sur les individus ayant acceptés de répondre aux questionnaires et comprennent 
 entre autre les informations personnelles (l’age, le sexe), les informations sur le type de dépenses 
