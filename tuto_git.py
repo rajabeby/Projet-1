@@ -51,6 +51,14 @@ A["CMAge"]=pd.to_numeric(A["CMAge"])
 A=A.drop(["Province","mred","Ndur","hhid","CMEducNiv","DecileNat","ODD10_2_1","MenPoids","IndPoids","SCORETOT","PauvSub","HH7","SITE","taille_c","CSP_New2_CM","ED45"],axis=1)
 A=A.drop(["FoodPline","Pline","Pline19PPA","PauvMon","DemiDepMed",'PauvNonMon',],axis=1)
 
+#                Imputation
+# Pour remplacer les valeurs manquantes on a utilisé différentes techniques d'imputation
+# POur les variables catégorielles nous et discrètes nous avons fait une imputation par le mode
+# Pour les variables continues, nous avons fait une imputation par la médianne s la distribution de la variable est a un coefficient d'assymétrie de Fisher différent de zéro, et une imputation par la moyenne sinon
+# L'objectif étant de minimiser le plus possible le changement de la forme de la distribution de chaque variable
+
+
+
 
 dummy_A=A.select_dtypes(exclude=[np.number])
 A=A.select_dtypes(include=[np.number])
@@ -74,15 +82,8 @@ for i in assymetrie:
     iteration=iteration+1
 A=pd.concat([A,dummy_A],axis=1)
 
-#Imputation
-# Pour remplacer les valeurs manquantes on a utilisé différentes techniques d'imputation
-# POur les variables catégorielles nous et discrètes nous avons fait une imputation par le mode
-# Pour les variables continues, nous avons fait une imputation par la médianne s la distribution de la variable est a un coefficient d'assymétrie de Fisher différent de zéro, et une imputation par la moyenne sinon
-# L'objectif étant de minimiser le plus possible le changement de la forme de la distribution de chaque variable
 
-
-
-## Gestion des outliers
+##                 Gestion des outliers
 # Pour améliorer la qualité d'ajustement de notre modèle, la gestion des valeurs abérrantes est nécéssaire pour éviter que ces dernières n'affectent négativement notre modèle
 # Pour cela nous avons choisi d'utiliser l'algorithme de l'Isolation Forest pour détecter ces valeurs
 # Cette algorithme repose sur les arbres de décisions. Compte tenu du fait que nos données sont des valeurs multidimensionnelles, les méthodes habituelles de détection des valeurs abérrantes ne sont pas utilisable, d'où le fait de récourir à l'Isolation Forest
@@ -112,28 +113,14 @@ for i in y_pred_outliers:
         suppression.append(iteration)
     iteration=iteration+1   
 A=A.drop(A.index[suppression],axis=0)
-# Nous avons décidé de supprimer ces valeurs également à cause du fait que leur nombre est plutot faible par rapport à au dataset total
+# Nous avons décidé de supprimer ces valeurs également à cause du fait que le nombre de ces outliers obtenus sont plutôt faibles par rapport à au dataset total
 A = A.reset_index(drop=True)
 dummy_A=dummy_A.drop(dummy_A.index[suppression],axis=0)
-
-    
-
- 
-
-
-    
-    
-    
-    
-    
     
 
     
    
-    
-    
-#A=A.drop(dummy_A.columns,axis=1)
-#y=dummy_A["Milieu"]
+
 dummy_A=A.select_dtypes(exclude=[np.number])
 dummy_A = dummy_A.reset_index(drop=True)
 
@@ -145,10 +132,10 @@ from sklearn.preprocessing import KBinsDiscretizer
 # Nous rappelons que notre objectif est de prédire le milieu des résidence des individus en utilisant un modèle de discrimination qui est la régression logistique.
 # Mais compte tenu du grand nombre des variables, cela peut affecter la qualité de notre ajustement.
 # Pour éviter cela, nous avons choisi de réduire la dimension de nos données en utilisant des méthodes factorielles
-# Nous observons également que notre dataset contient des variables mixtes et une large majorité d'entre-elles sont des variables cartégorielles, ce qui nous empêche d'utiliser des méthodes comme l'ACP ou AFCM.
+# Nous observons entre autre que notre dataset contient des variables mixtes et une large majorité d'entre-elles sont des variables cartégorielles, ce qui nous empêche d'utiliser des méthodes comme l'ACP ou AFCM.
 # cependant il existe également une méthode appelée Analyse Factorielle des Données Mixtes qui permet de reduire la dimension des datasets contenant des variables à la fois numériques et catégorielles.
 # Le principe de cette méthode consiste à transformer nos variables numériques en variables catégorielles, pour cela on peut utiliser les algorithmes de partitionnement comme les K-moyennes(K-means)
-# Une fois cette étape éffectuée, on fait ensuite une analyse des correspondances multiples sur nos nouvelles données ne contennat que les variables catégorielles en plus des nouvelles variables obtenuent après avoir transformé nos variables numériques
+# Une fois cette étape éffectuée, on fait ensuite une analyse des correspondances multiples sur nos nouvelles données ne contennat que les variables numériques en plus des nouvelles variables obtenuent après avoir transformé nos variables numériques
 
 
 # Création d'une instance de KBinsDiscretizer
